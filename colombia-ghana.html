@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>Colombia vs Ghana — Pronósticos</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600;700&display=swap');
+
+:root{
+  --pitch-dark:#07231a;
+  --pitch:#0f3d2b;
+  --cream:#f3efe3;
+  --col-gold:#ffd100;
+  --col-blue:#003893;
+  --flag-red:#ce1126;
+  --gha-green:#046a38;
+  --gha-black:#0a0a0a;
+  --line:rgba(243,239,227,0.14);
+  --ok:#3fae6a;
+}
+
+*{box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
+html,body{margin:0;padding:0;}
+body{
+  background:
+    radial-gradient(ellipse at top, rgba(255,209,0,0.06), transparent 60%),
+    var(--pitch-dark);
+  color:var(--cream);
+  font-family:'Work Sans', sans-serif;
+  min-height:100vh;
+  padding-bottom:40px;
+}
+
+.wrap{max-width:520px; margin:0 auto; padding:0 16px;}
+
+/* HEADER SCOREBOARD */
+.board{
+  background:linear-gradient(180deg, var(--pitch) 0%, var(--pitch-dark) 100%);
+  border-bottom:3px solid var(--col-gold);
+  padding:22px 16px 18px;
+  position:relative;
+  overflow:hidden;
+}
+.board::before{
+  content:"";
+  position:absolute; inset:0;
+  background:
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.025) 0 40px, transparent 40px 80px);
+  pointer-events:none;
+}
+.eyebrow{
+  font-family:'Space Mono', monospace;
+  font-size:11px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--col-gold);
+  text-align:center;
+  margin-bottom:10px;
+}
+.teams{
+  display:flex; align-items:center; justify-content:center; gap:14px;
+  font-family:'Anton', sans-serif;
+}
+.team{
+  font-size:clamp(22px, 7vw, 30px);
+  letter-spacing:1px;
+}
+.team.col{color:var(--col-gold); text-shadow:0 0 18px rgba(255,209,0,0.25);}
+.team.gha{color:#fff; text-shadow:0 0 18px rgba(4,106,56,0.5);}
+.vs{
+  font-family:'Space Mono', monospace;
+  font-size:13px;
+  color:var(--flag-red);
+  border:1px solid var(--flag-red);
+  border-radius:20px;
+  padding:2px 9px;
+}
+.stripe{
+  display:flex; height:5px; margin-top:14px; border-radius:3px; overflow:hidden;
+}
+.stripe span{flex:1;}
+.stripe .c1{background:var(--col-gold);}
+.stripe .c2{background:var(--col-blue);}
+.stripe .c3{background:var(--flag-red);}
+.stripe .c4{background:var(--gha-black);}
+.stripe .c5{background:var(--gha-green);}
+
+/* SECTIONS */
+section{padding:20px 0;}
+h2{
+  font-family:'Anton', sans-serif;
+  font-weight:400;
+  font-size:18px;
+  letter-spacing:0.5px;
+  margin:0 0 12px;
+  display:flex; align-items:center; gap:8px;
+}
+h2 .num{
+  font-family:'Space Mono', monospace;
+  font-size:12px;
+  color:var(--pitch-dark);
+  background:var(--col-gold);
+  border-radius:5px;
+  padding:2px 7px;
+}
+
+/* FORM CARD */
+.card{
+  background:rgba(243,239,227,0.04);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:18px;
+}
+label{
+  display:block;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:1.5px;
+  color:rgba(243,239,227,0.55);
+  margin-bottom:6px;
+}
+input[type=text]{
+  width:100%;
+  background:rgba(0,0,0,0.25);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:12px 14px;
+  color:var(--cream);
+  font-family:'Work Sans', sans-serif;
+  font-size:15px;
+  margin-bottom:16px;
+}
+input[type=text]:focus{outline:2px solid var(--col-gold); border-color:transparent;}
+
+.score-row{
+  display:flex; align-items:center; justify-content:center; gap:18px;
+  margin-bottom:6px;
+}
+.score-block{text-align:center;}
+.score-block .name{
+  font-size:11px; letter-spacing:1.5px; text-transform:uppercase;
+  margin-bottom:8px; font-weight:600;
+}
+.score-block.col .name{color:var(--col-gold);}
+.score-block.gha .name{color:#8fe0b4;}
+
+.flip{
+  width:64px; height:76px;
+  background:linear-gradient(180deg,#1a1a1a,#0a0a0a);
+  border-radius:8px;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Space Mono', monospace;
+  font-size:34px; font-weight:700;
+  color:var(--cream);
+  border:1px solid rgba(255,255,255,0.12);
+  position:relative;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.5), 0 3px 0 rgba(0,0,0,0.4);
+}
+.flip::after{
+  content:""; position:absolute; left:0; right:0; top:50%;
+  height:1px; background:rgba(0,0,0,0.6);
+}
+.stepper{display:flex; align-items:center; gap:10px; margin-top:10px;}
+.step-btn{
+  width:34px; height:34px; border-radius:50%;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,0.06);
+  color:var(--cream);
+  font-size:18px; font-weight:700;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+  user-select:none;
+}
+.step-btn:active{background:var(--col-gold); color:var(--pitch-dark);}
+
+.dash{
+  font-family:'Anton', sans-serif;
+  font-size:26px;
+  color:rgba(243,239,227,0.3);
+  align-self:center;
+  margin-top:26px;
+}
+
+.msg{
+  margin-top:14px;
+  padding:10px 12px;
+  border-radius:10px;
+  font-size:13.5px;
+  display:none;
+}
+.msg.error{background:rgba(206,17,38,0.15); border:1px solid var(--flag-red); color:#ff9d9d; display:block;}
+.msg.ok{background:rgba(63,174,106,0.15); border:1px solid var(--ok); color:#a3ecc0; display:block;}
+
+.submit-btn{
+  width:100%;
+  margin-top:16px;
+  padding:14px;
+  border:none;
+  border-radius:12px;
+  background:linear-gradient(180deg, var(--col-gold), #e0b500);
+  color:var(--pitch-dark);
+  font-family:'Work Sans', sans-serif;
+  font-weight:700;
+  font-size:15px;
+  letter-spacing:0.5px;
+  cursor:pointer;
+}
+.submit-btn:active{transform:translateY(1px);}
+.submit-btn:disabled{opacity:0.5; cursor:default;}
+
+/* LIST */
+.list{display:flex; flex-direction:column; gap:8px;}
+.row{
+  display:flex; align-items:center; justify-content:space-between;
+  background:rgba(243,239,227,0.04);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:11px 14px;
+  gap:10px;
+}
+.row.sanctioned{
+  background:rgba(206,17,38,0.16);
+  border-color:var(--flag-red);
+}
+.row .who{display:flex; flex-direction:column; min-width:0;}
+.row .pname{
+  font-weight:600; font-size:14.5px;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+.row.sanctioned .pname{color:#ff9d9d; text-decoration:line-through; text-decoration-color:var(--flag-red);}
+.row .ptag{font-size:10.5px; color:rgba(243,239,227,0.4); font-family:'Space Mono',monospace;}
+.row .pscore{
+  font-family:'Space Mono', monospace;
+  font-weight:700; font-size:17px;
+  background:rgba(0,0,0,0.3);
+  border-radius:7px;
+  padding:4px 10px;
+  white-space:nowrap;
+}
+.row.sanctioned .pscore{color:var(--flag-red);}
+
+.admin-actions{display:flex; gap:6px;}
+.mini-btn{
+  border:1px solid var(--line);
+  background:rgba(255,255,255,0.06);
+  color:var(--cream);
+  font-size:11px;
+  padding:6px 9px;
+  border-radius:8px;
+  cursor:pointer;
+  font-family:'Work Sans', sans-serif;
+}
+.mini-btn.warn{border-color:var(--flag-red); color:#ff9d9d;}
+.mini-btn.clear{border-color:var(--ok); color:#a3ecc0;}
+
+.empty{
+  text-align:center;
+  color:rgba(243,239,227,0.4);
+  font-size:13.5px;
+  padding:24px 10px;
+  border:1px dashed var(--line);
+  border-radius:12px;
+}
+
+/* ADMIN BAR */
+.admin-bar{
+  display:flex; justify-content:flex-end; padding:14px 0 0;
+}
+.admin-toggle{
+  font-family:'Space Mono', monospace;
+  font-size:11px;
+  color:rgba(243,239,227,0.45);
+  background:none;
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:5px 12px;
+  cursor:pointer;
+}
+.admin-toggle.active{color:var(--col-gold); border-color:var(--col-gold);}
+
+.admin-login{
+  display:flex; gap:8px; margin-top:10px;
+}
+.admin-login input{
+  flex:1; margin-bottom:0;
+  background:rgba(0,0,0,0.25); border:1px solid var(--line); border-radius:10px;
+  padding:10px 12px; color:var(--cream); font-family:'Space Mono',monospace; font-size:13px;
+}
+.admin-login button{
+  border:none; border-radius:10px; padding:0 16px;
+  background:var(--col-gold); color:var(--pitch-dark); font-weight:700; cursor:pointer;
+}
+
+.legend{
+  display:flex; align-items:center; gap:6px;
+  font-size:11.5px; color:rgba(243,239,227,0.45);
+  margin-top:10px;
+}
+.dot{width:9px; height:9px; border-radius:50%; background:var(--flag-red); display:inline-block;}
+
+.footer-note{
+  text-align:center; font-size:11px; color:rgba(243,239,227,0.3);
+  padding-top:26px; line-height:1.6;
+}
+</style>
+</head>
+<body>
+
+<div class="board">
+  <div class="eyebrow">Copa Mundial · Pronóstico de marcador</div>
+  <div class="teams">
+    <span class="team col">Colombia</span>
+    <span class="vs">VS</span>
+    <span class="team gha">Ghana</span>
+  </div>
+  <div class="stripe">
+    <span class="c1"></span><span class="c2"></span><span class="c3"></span><span class="c4"></span><span class="c5"></span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <section id="form-section">
+    <h2><span class="num">01</span> Coloca tu marcador</h2>
+    <div class="card">
+      <label for="name-input">Tu nombre</label>
+      <input type="text" id="name-input" placeholder="Ej. Juan Pérez" maxlength="40">
+
+      <div class="score-row">
+        <div class="score-block col">
+          <div class="name">Colombia</div>
+          <div class="flip" id="flip-col">0</div>
+          <div class="stepper">
+            <div class="step-btn" id="col-minus">–</div>
+            <div class="step-btn" id="col-plus">+</div>
+          </div>
+        </div>
+        <div class="dash">–</div>
+        <div class="score-block gha">
+          <div class="name">Ghana</div>
+          <div class="flip" id="flip-gha">0</div>
+          <div class="stepper">
+            <div class="step-btn" id="gha-minus">–</div>
+            <div class="step-btn" id="gha-plus">+</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="msg" id="form-msg"></div>
+      <button class="submit-btn" id="submit-btn">Registrar marcador</button>
+    </div>
+  </section>
+
+  <section id="admin-section">
+    <div class="admin-bar">
+      <button class="admin-toggle" id="admin-toggle">🔒 Modo admin</button>
+    </div>
+    <div id="admin-login-box" style="display:none;">
+      <div class="admin-login">
+        <input type="text" id="admin-pass" placeholder="Contraseña de administrador">
+        <button id="admin-submit">Entrar</button>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">02</span> Participantes <span id="count-badge" style="font-family:'Space Mono',monospace; font-size:12px; color:rgba(243,239,227,0.45);"></span></h2>
+    <div class="legend"><span class="dot"></span> En rojo = marcador sancionado por el administrador</div>
+    <div class="list" id="list" style="margin-top:14px;"></div>
+  </section>
+
+  <div class="footer-note">Cada marcador exacto solo puede ser elegido por 2 personas.<br>Comparte este link con los demás participantes.</div>
+</div>
+
+<script>
+(function(){
+  const KEY = 'colvsgha:participants';
+  // Cambia esta contraseña antes de compartir el link con el grupo.
+  const ADMIN_PASSWORD = 'COL2026';
+
+  let colScore = 0, ghaScore = 0;
+  let isAdmin = false;
+
+  const flipCol = document.getElementById('flip-col');
+  const flipGha = document.getElementById('flip-gha');
+  const nameInput = document.getElementById('name-input');
+  const formMsg = document.getElementById('form-msg');
+  const submitBtn = document.getElementById('submit-btn');
+  const listEl = document.getElementById('list');
+  const countBadge = document.getElementById('count-badge');
+  const adminToggle = document.getElementById('admin-toggle');
+  const adminLoginBox = document.getElementById('admin-login-box');
+  const adminPass = document.getElementById('admin-pass');
+  const adminSubmit = document.getElementById('admin-submit');
+
+  function clampStep(el, delta, which){
+    if(which==='col'){
+      colScore = Math.max(0, Math.min(20, colScore+delta));
+      flipCol.textContent = colScore;
+    } else {
+      ghaScore = Math.max(0, Math.min(20, ghaScore+delta));
+      flipGha.textContent = ghaScore;
+    }
+  }
+  document.getElementById('col-minus').onclick = ()=>clampStep(null,-1,'col');
+  document.getElementById('col-plus').onclick = ()=>clampStep(null,1,'col');
+  document.getElementById('gha-minus').onclick = ()=>clampStep(null,-1,'gha');
+  document.getElementById('gha-plus').onclick = ()=>clampStep(null,1,'gha');
+
+  function showMsg(text, type){
+    formMsg.textContent = text;
+    formMsg.className = 'msg ' + type;
+  }
+  function clearMsg(){
+    formMsg.className = 'msg';
+    formMsg.textContent = '';
+  }
+
+  async function loadParticipants(){
+    try{
+      const res = await window.storage.get(KEY, true);
+      if(res && res.value){
+        return JSON.parse(res.value);
+      }
+      return [];
+    }catch(e){
+      return [];
+    }
+  }
+
+  async function saveParticipants(list){
+    await window.storage.set(KEY, JSON.stringify(list), true);
+  }
+
+  function scoreKey(h,a){ return h+'-'+a; }
+
+  function renderList(list){
+    listEl.innerHTML = '';
+    countBadge.textContent = list.length ? ('· ' + list.length) : '';
+    if(list.length === 0){
+      listEl.innerHTML = '<div class="empty">Todavía nadie ha colocado su marcador.<br>¡Sé el primero!</div>';
+      return;
+    }
+    const sorted = [...list].sort((a,b)=> b.ts - a.ts);
+    sorted.forEach(p=>{
+      const row = document.createElement('div');
+      row.className = 'row' + (p.sanctioned ? ' sanctioned' : '');
+      const who = document.createElement('div');
+      who.className = 'who';
+      const pname = document.createElement('div');
+      pname.className = 'pname';
+      pname.textContent = p.name;
+      const ptag = document.createElement('div');
+      ptag.className = 'ptag';
+      ptag.textContent = p.sanctioned ? 'SANCIONADO' : new Date(p.ts).toLocaleString('es-CO',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+      who.appendChild(pname); who.appendChild(ptag);
+
+      const right = document.createElement('div');
+      right.style.display = 'flex';
+      right.style.alignItems = 'center';
+      right.style.gap = '10px';
+
+      const pscore = document.createElement('div');
+      pscore.className = 'pscore';
+      pscore.textContent = p.home + ' - ' + p.away;
+      right.appendChild(pscore);
+
+      if(isAdmin){
+        const actions = document.createElement('div');
+        actions.className = 'admin-actions';
+        const btn = document.createElement('button');
+        btn.className = 'mini-btn ' + (p.sanctioned ? 'clear' : 'warn');
+        btn.textContent = p.sanctioned ? 'Quitar' : 'Sancionar';
+        btn.onclick = async ()=>{
+          const current = await loadParticipants();
+          const target = current.find(x=>x.id===p.id);
+          if(target){
+            target.sanctioned = !target.sanctioned;
+            await saveParticipants(current);
+            renderList(current);
+          }
+        };
+        actions.appendChild(btn);
+        right.appendChild(actions);
+      }
+
+      row.appendChild(who);
+      row.appendChild(right);
+      listEl.appendChild(row);
+    });
+  }
+
+  async function refresh(){
+    const list = await loadParticipants();
+    renderList(list);
+    return list;
+  }
+
+  submitBtn.onclick = async ()=>{
+    clearMsg();
+    const name = nameInput.value.trim();
+    if(!name){
+      showMsg('Escribe tu nombre antes de registrar el marcador.', 'error');
+      return;
+    }
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Registrando...';
+
+    const list = await loadParticipants();
+
+    // No permitir que la misma persona registre dos veces (por nombre exacto)
+    const alreadyPlayed = list.find(p => !p.sanctioned && p.name.toLowerCase() === name.toLowerCase());
+    if(alreadyPlayed){
+      showMsg('Ya existe un marcador registrado con ese nombre. Si es un error, contacta al administrador.', 'error');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Registrar marcador';
+      return;
+    }
+
+    const key = scoreKey(colScore, ghaScore);
+    const takenCount = list.filter(p => !p.sanctioned && scoreKey(p.home,p.away) === key).length;
+    if(takenCount >= 2){
+      showMsg('Ese marcador (' + colScore + ' - ' + ghaScore + ') ya fue elegido por 2 personas. Por favor elige otro marcador.', 'error');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Registrar marcador';
+      return;
+    }
+
+    const entry = {
+      id: (crypto.randomUUID ? crypto.randomUUID() : String(Date.now())+Math.random()),
+      name: name,
+      home: colScore,
+      away: ghaScore,
+      sanctioned: false,
+      ts: Date.now()
+    };
+    list.push(entry);
+    await saveParticipants(list);
+    renderList(list);
+    showMsg('¡Marcador registrado! Colombia ' + colScore + ' - ' + ghaScore + ' Ghana.', 'ok');
+    nameInput.value = '';
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Registrar marcador';
+  };
+
+  adminToggle.onclick = ()=>{
+    if(isAdmin){
+      isAdmin = false;
+      adminToggle.classList.remove('active');
+      adminToggle.textContent = '🔒 Modo admin';
+      adminLoginBox.style.display = 'none';
+      refresh();
+    } else {
+      adminLoginBox.style.display = adminLoginBox.style.display === 'none' ? 'block' : 'none';
+    }
+  };
+
+  adminSubmit.onclick = async ()=>{
+    if(adminPass.value === ADMIN_PASSWORD){
+      isAdmin = true;
+      adminToggle.classList.add('active');
+      adminToggle.textContent = '🔓 Admin activo';
+      adminLoginBox.style.display = 'none';
+      adminPass.value = '';
+      refresh();
+    } else {
+      adminPass.style.borderColor = 'var(--flag-red)';
+      adminPass.value = '';
+      adminPass.placeholder = 'Contraseña incorrecta, intenta de nuevo';
+    }
+  };
+  adminPass.addEventListener('keydown', (e)=>{ if(e.key === 'Enter') adminSubmit.click(); });
+  nameInput.addEventListener('keydown', (e)=>{ if(e.key === 'Enter') submitBtn.click(); });
+
+  refresh();
+  setInterval(refresh, 8000); // refresco automático para ver nuevos participantes
+})();
+</script>
+
+</body>
+</html>
